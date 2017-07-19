@@ -175,9 +175,10 @@ chmod +x /usr/bin/dropmon
 
 # Install Menu for OpenVPN
 cd
-wget https://raw.githubusercontent.com/muchigo/VPS/master/conf/menu
+wget https://raw.githubusercontent.com/syahz86/VPS/master/conf/menu
 mv ./menu /usr/local/bin/menu
 chmod +x /usr/local/bin/menu
+
 #bonus block playstation
 iptables -A OUTPUT -d account.sonyentertainmentnetwork.com -j DROP
 iptables -A OUTPUT -d auth.np.ac.playstation.net -j DROP
