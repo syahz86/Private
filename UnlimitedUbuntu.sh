@@ -19,7 +19,7 @@ service pritunl start
 # Install Squid
 apt-get -y install squid3
 cp /etc/squid3/squid.conf /etc/squid3/squid.conf.orig
-wget -O /etc/squid3/squid.conf "https://raw.githubusercontent.com/muchigo/VPS/master/conf/squid.conf" 
+wget -O /etc/squid3/squid.conf "https://raw.githubusercontent.com/syahz86/Private/master/conf/squid.conf" 
 MYIP=`ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0' | grep -v '192.168'`;
 sed -i s/xxxxxxxxx/$MYIP/g /etc/squid3/squid.conf;
 service squid3 restart
@@ -34,11 +34,11 @@ apt-get -y install nginx php5-fpm php5-cli
 cd
 rm /etc/nginx/sites-enabled/default
 rm /etc/nginx/sites-available/default
-wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/muchigo/VPS/master/conf/nginx.conf"
-mkdir -p /home/vps/public_html
-echo "<pre>Setup by Kiellez</pre>" > /home/vps/public_html/index.html
-echo "<?php phpinfo(); ?>" > /home/vps/public_html/info.php
-wget -O /etc/nginx/conf.d/vps.conf "https://raw.githubusercontent.com/muchigo/VPS/master/conf/vps.conf"
+wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/syahz86/Private/master/conf/nginx.conf"
+mkdir -p /home/Private/public_html
+echo "<pre>Setup by syahz86</pre>" > /home/Private/public_html/index.html
+echo "<?php phpinfo(); ?>" > /home/Private/public_html/info.php
+wget -O /etc/nginx/conf.d/Private.conf "https://raw.githubusercontent.com/syahz86/Private/master/conf/Private.conf"
 sed -i 's/listen = \/var\/run\/php5-fpm.sock/listen = 127.0.0.1:9000/g' /etc/php5/fpm/pool.d/www.conf
 service php5-fpm restart
 service nginx restart
@@ -50,7 +50,7 @@ sudo chown -R vnstat:vnstat /var/lib/vnstat
 service vnstat restart
 
 # Install Vnstat GUI
-cd /home/vps/public_html/
+cd /home/Private/public_html/
 wget http://www.sqweek.com/sqweek/files/vnstat_php_frontend-1.5.1.tar.gz
 tar xf vnstat_php_frontend-1.5.1.tar.gz
 rm vnstat_php_frontend-1.5.1.tar.gz
@@ -73,7 +73,7 @@ echo "-Vnstat"
 echo "Jika ada tambahan sila tambah sendiri ye =)"
 echo "Sila login ke pritunl untuk proceed step seterusnya"
 echo " "
-echo "Disediakan Oleh Kiellez"
+echo "Disediakan Oleh syahz86"
 echo "TimeZone   :  Malaysia"
 echo "Vnstat     :  http://$MYIP:81/vnstat"
 echo "Pritunl    :  https://$MYIP"
