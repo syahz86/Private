@@ -60,24 +60,24 @@ echo "screenfetch" >> .profile
 cd
 rm /etc/nginx/sites-enabled/default
 rm /etc/nginx/sites-available/default
-wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/muchigo/VPS/master/conf/nginx.conf"
-mkdir -p /home/vps/public_html
-echo "<pre>Setup by Kiellez</pre>" > /home/vps/public_html/index.html
-echo "<?php phpinfo(); ?>" > /home/vps/public_html/info.php
-wget -O /etc/nginx/conf.d/vps.conf "https://raw.githubusercontent.com/muchigo/VPS/master/conf/vps.conf"
+wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/syahz86/Private/master/conf/nginx.conf"
+mkdir -p /home/Private/public_html
+echo "<pre>Setup by Syahz86</pre>" > /home/Private/public_html/index.html
+echo "<?php phpinfo(); ?>" > /home/Private/public_html/info.php
+wget -O /etc/nginx/conf.d/Private.conf "https://raw.githubusercontent.com/syahz86/Private/master/conf/Private.conf"
 sed -i 's/listen = \/var\/run\/php5-fpm.sock/listen = 127.0.0.1:9000/g' /etc/php5/fpm/pool.d/www.conf
 service php5-fpm restart
 service nginx restart
 
 # install openvpn
-wget -O /etc/openvpn/openvpn.tar "https://raw.githubusercontent.com/muchigo/VPS/master/conf/openvpn.tar"
+wget -O /etc/openvpn/openvpn.tar "https://raw.githubusercontent.com/syahz86/Private/master/conf/openvpn.tar"
 cd /etc/openvpn/
 tar xf openvpn.tar
-wget -O /etc/openvpn/1194.conf "https://raw.githubusercontent.com/muchigo/VPS/master/conf/1194-debian.conf"
+wget -O /etc/openvpn/1194.conf "https://raw.githubusercontent.com/syahz86/Private/master/conf/1194-debian.conf"
 service openvpn restart
 sysctl -w net.ipv4.ip_forward=1
 sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
-wget -O /etc/iptables.up.rules "https://raw.githubusercontent.com/muchigo/VPS/master/conf/iptables.up.rules"
+wget -O /etc/iptables.up.rules "https://raw.githubusercontent.com/syahz86/Private/master/conf/iptables.up.rules"
 sed -i '$ i\iptables-restore < /etc/iptables.up.rules' /etc/rc.local
 MYIP=`ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0' | grep -v '192.168'`;
 MYIP2="s/xxxxxxxxx/$MYIP/g";
@@ -88,7 +88,7 @@ service openvpn restart
 
 # configure openvpn client config
 cd /etc/openvpn/
-wget -O /etc/openvpn/1194-client.ovpn "https://raw.githubusercontent.com/muchigo/VPS/master/conf/1194-client.conf"
+wget -O /etc/openvpn/1194-client.ovpn "https://raw.githubusercontent.com/syahz86/Private/master/conf/1194-client.conf"
 sed -i $MYIP2 /etc/openvpn/1194-client.ovpn;
 sed -i 's/1194/6500/g' /etc/openvpn/1194-client.ovpn
 NAME=`uname -n`.`awk '/^domain/ {print $2}' /etc/resolv.conf`;
@@ -96,7 +96,7 @@ mv /etc/openvpn/1194-client.ovpn /etc/openvpn/$NAME.ovpn
 useradd -M -s /bin/false test1
 echo "test1:test1" | chpasswd
 tar cf client.tar $NAME.ovpn
-cp client.tar /home/vps/public_html/
+cp client.tar /home/Private/public_html/
 cd
 
 # setting port ssh
@@ -115,14 +115,14 @@ service ssh restart
 service dropbear restart
 
 # bannerssh
-wget https://raw.githubusercontent.com/syahz86/VPS/master/conf/bannerssh
+wget https://raw.githubusercontent.com/syahz86/Private/master/conf/bannerssh
 mv ./bannerssh /bannerssh
 chmod 0644 /bannerssh
 service dropbear restart
 service ssh restart
 
 # install vnstat gui
-cd /home/vps/public_html/
+cd /home/Private/public_html/
 wget http://www.sqweek.com/sqweek/files/vnstat_php_frontend-1.5.1.tar.gz
 tar xf vnstat_php_frontend-1.5.1.tar.gz
 rm vnstat_php_frontend-1.5.1.tar.gz
@@ -141,7 +141,7 @@ service fail2ban restart
 
 # install squid3
 apt-get -y install squid3
-wget -O /etc/squid3/squid.conf "https://raw.githubusercontent.com/muchigo/VPS/master/conf/squid.conf"
+wget -O /etc/squid3/squid.conf "https://raw.githubusercontent.com/syahz86/Private/master/conf/squid.conf"
 sed -i $MYIP2 /etc/squid3/squid.conf;
 service squid3 restart
 
@@ -157,7 +157,7 @@ service vnstat restart
 
 # User Status
 cd
-wget https://raw.githubusercontent.com/muchigo/VPS/master/conf/status
+wget https://raw.githubusercontent.com/syahz86/Private/master/conf/status
 chmod +x status
 
 # Install Dos Deflate
@@ -170,12 +170,12 @@ cd
 
 # Install SSH autokick
 cd
-wget https://raw.githubusercontent.com/muchigo/VPS/master/Autokick-debian.sh
+wget https://raw.githubusercontent.com/syahz86/Private/master/Autokick-debian.sh
 bash Autokick-debian.sh
 
 # Install Monitor Multilogin Dropbear & OpenSSH
 cd
-wget -O /usr/bin/dropmon https://raw.githubusercontent.com/syahz86/VPS/master/conf/dropmon.sh
+wget -O /usr/bin/dropmon https://raw.githubusercontent.com/syahz86/Private/master/conf/dropmon.sh
 #cd
 cd
 chmod +x /usr/bin/dropmon
@@ -183,7 +183,7 @@ chmod +x /usr/bin/dropmon
 
 # Install Menu for OpenVPN
 cd
-wget https://raw.githubusercontent.com/syahz86/VPS/master/conf/menu
+wget https://raw.githubusercontent.com/syahz86/Private/master/conf/menu
 mv ./menu /usr/local/bin/menu
 chmod +x /usr/local/bin/menu
 
@@ -255,7 +255,7 @@ iptables -A OUTPUT -p tcp --dport 25 -j REJECT
 iptables-save
 
 # Restart Service
-chown -R www-data:www-data /home/vps/public_html
+chown -R www-data:www-data /home/Private/public_html
 service nginx start
 service php-fpm start
 service vnstat restart
@@ -268,7 +268,7 @@ service webmin restart
 
 # info
 clear
-echo "Setup by Kiellez"
+echo "Setup by Syahz86"
 echo "OpenVPN  : TCP 1194 (client config : http://$MYIP:81/client.tar)"
 echo "OpenSSH  : 22, 143"
 echo "Dropbear : 109, 110, 443"
@@ -282,6 +282,6 @@ echo "Fail2Ban : [on]"
 echo "IPv6     : [off]"
 echo "Status   : please type ./status to check user status"
 echo ""
-echo "Please Reboot your VPS !"
+echo "Please Reboot your Private !"
 echo ""
 echo "==============================================="
