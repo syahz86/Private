@@ -67,24 +67,24 @@ echo "screenfetch" >> .bash_profile
 
 # install webserver
 cd
-wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/muchigo/VPS/master/conf/nginx.conf"
+wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/syahz86/Private/master/conf/nginx.conf"
 sed -i 's/www-data/nginx/g' /etc/nginx/nginx.conf
-mkdir -p /home/vps/public_html
-echo "<pre>Setup by Kiellez</pre>" > /home/vps/public_html/index.html
-echo "<?php phpinfo(); ?>" > /home/vps/public_html/info.php
+mkdir -p /home/Private/public_html
+echo "<pre>Setup by Kiellez</pre>" > /home/Private/public_html/index.html
+echo "<?php phpinfo(); ?>" > /home/Private/public_html/info.php
 rm /etc/nginx/conf.d/*
-wget -O /etc/nginx/conf.d/vps.conf "https://raw.githubusercontent.com/muchigo/VPS/master/conf/vps.conf"
+wget -O /etc/nginx/conf.d/Private.conf "https://raw.githubusercontent.com/syahz86/Private/master/conf/Private.conf"
 sed -i 's/apache/nginx/g' /etc/php-fpm.d/www.conf
-chmod -R +rx /home/vps
+chmod -R +rx /home/Private
 service php-fpm restart
 service nginx restart
 
 # install openvpn
-wget -O /etc/openvpn/openvpn.tar "https://raw.githubusercontent.com/muchigo/VPS/master/conf/openvpn.tar"
+wget -O /etc/openvpn/openvpn.tar "https://raw.githubusercontent.com/syahz86/Private/master/conf/openvpn.tar"
 cd /etc/openvpn/
 tar xf openvpn.tar
-wget -O /etc/openvpn/1194.conf "https://raw.githubusercontent.com/muchigo/VPS/master/conf/1194-centos.conf"
-wget -O /etc/iptables.up.rules "https://raw.githubusercontent.com/muchigo/VPS/master/conf/iptables.up.rules"
+wget -O /etc/openvpn/1194.conf "https://raw.githubusercontent.com/syahz86/Private/master/conf/1194-centos.conf"
+wget -O /etc/iptables.up.rules "https://raw.githubusercontent.com/syahz86/Private/master/conf/iptables.up.rules"
 sed -i '$ i\iptables-restore < /etc/iptables.up.rules' /etc/rc.local
 sed -i '$ i\iptables-restore < /etc/iptables.up.rules' /etc/rc.d/rc.local
 MYIP=`ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0' | grep -v '192.168'`;
@@ -100,11 +100,11 @@ cd
 
 # configure openvpn client config
 cd /etc/openvpn/
-wget -O /etc/openvpn/1194-client.ovpn "https://raw.githubusercontent.com/muchigo/VPS/master/conf/1194-client.conf"
+wget -O /etc/openvpn/1194-client.ovpn "https://raw.githubusercontent.com/syahz86/Private/master/conf/1194-client.conf"
 sed -i $MYIP2 /etc/openvpn/1194-client.ovpn;
 PASS=`cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 15 | head -n 1`;
 tar cf client.tar 1194-client.ovpn
-cp client.tar /home/vps/public_html/
+cp client.tar /home/Private/public_html/
 cd
 
 # setting port ssh
@@ -121,7 +121,7 @@ service dropbear restart
 chkconfig dropbear on
 
 # install vnstat gui
-cd /home/vps/public_html/
+cd /home/Private/public_html/
 wget http://www.sqweek.com/sqweek/files/vnstat_php_frontend-1.5.1.tar.gz
 tar xf vnstat_php_frontend-1.5.1.tar.gz
 rm vnstat_php_frontend-1.5.1.tar.gz
@@ -141,7 +141,7 @@ chkconfig fail2ban on
 
 # install squid
 yum -y install squid
-wget -O /etc/squid/squid.conf "https://raw.githubusercontent.com/muchigo/VPS/master/conf/squid.conf"
+wget -O /etc/squid/squid.conf "https://raw.githubusercontent.com/syahz86/Private/master/conf/squid.conf"
 sed -i $MYIP2 /etc/squid/squid.conf;
 service squid restart
 chkconfig squid on
@@ -158,7 +158,7 @@ chkconfig webmin on
 
 # User Status
 cd
-wget https://raw.githubusercontent.com/muchigo/VPS/master/conf/status
+wget https://raw.githubusercontent.com/syahz86/Private/master/conf/status
 chmod +x status
 
 # Install Dos Deflate
@@ -171,14 +171,14 @@ cd
 
 # Install SSH autokick
 cd
-wget https://raw.githubusercontent.com/muchigo/VPS/master/Autokick-centos.sh
+wget https://raw.githubusercontent.com/syahz86/Private/master/Autokick-centos.sh
 bash Autokick-centos.sh
 
 # set time GMT +8
 ln -fs /usr/share/zoneinfo/Asia/Kuala_Lumpur /etc/localtime
 
 # Restart Service
-chown -R nginx:nginx /home/vps/public_html
+chown -R nginx:nginx /home/Private/public_html
 service nginx start
 service php-fpm start
 service vnstat restart
@@ -208,7 +208,7 @@ echo "Fail2Ban : [on]"
 echo "IPv6     : [off]"
 echo "Status   : please type ./status to check user status"
 echo ""
-echo "Please Reboot your VPS !"
+echo "Please Reboot your Private !"
 echo ""
 echo "==============================================="
 
