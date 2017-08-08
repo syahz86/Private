@@ -180,7 +180,7 @@ ln -fs /usr/share/zoneinfo/Asia/Kuala_Lumpur /etc/localtime
 # Restart Service
 chown -R nginx:nginx /home/Private/public_html
 service nginx start
-service php-fpm start
+service php5-fpm start
 service vnstat restart
 service openvpn restart
 service sshd restart
